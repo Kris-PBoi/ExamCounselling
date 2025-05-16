@@ -28,7 +28,6 @@ int main(int argc, char *argv[])
     printf("After sorting by rank: \n");
     applTestPrint(&cMain);
 
-    printf("Git test\n");
     printf("Counselling done successfully\n");
 }
 int seatAllocation(struct CounsellingMain *cMainPtr)
