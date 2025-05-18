@@ -28,12 +28,67 @@ int main(int argc, char *argv[])
     printf("After sorting by rank: \n");
     applTestPrint(&cMain);
 
+    seatAllocation(&cMain);
+    printf("After seat allocation: \n");
+    for(int i = 0; i < cMain.appCount; i++)
+    {
+        struct Application* app = &(cMain.appList[i]); 
+        for(int j = 0; j < app->allocationCount; j++)
+        {
+            int prefindex = app->allocations[j];
+            printf("App No.: %d\n", app->appNo);
+            printf("Allocated institute: %s\n", app->prefList[prefindex].institute);
+            printf("Allocated program: %s\n", app->prefList[prefindex].program);
+        }
+    }
     printf("Counselling done successfully\n");
 }
 int seatAllocation(struct CounsellingMain *cMainPtr)
 {
     printf("Seat Allocation called\n");
-
+    for(int i = 0; i < cMainPtr->appCount; i++)
+    {
+        struct Application* app = &(cMainPtr->appList[i]); 
+        int seatFound = 0;
+        for(int j = 0; j < app->prefCount; j++)
+        {
+            if(allocateSeat(cMainPtr, app->prefList[j].institute,
+                 app->prefList[j].program) == SUCCESS)
+            {
+                seatFound = 1;
+                //save preference index that is allocated
+                app->allocations[app->allocationCount++] = j;
+            }
+        }
+        if(seatFound == 0) printf("No seat allocated for %d\n", app->appNo);
+        else printf("Seat allocated for %d\n", app->appNo);
+    }
+    return SUCCESS;
+}
+int allocateSeat(struct CounsellingMain *cMainPtr, char* institute, char* program)
+{
+    for(int i = 0; i < cMainPtr->matrixCount; i++)
+    {
+        if(!strcmp(cMainPtr->seatMatrix[i].institute, institute)
+         && !strcmp(cMainPtr->seatMatrix[i].program, program)
+          && cMainPtr->seatMatrix[i].noOfSeats > 0)
+        {
+            cMainPtr->seatMatrix[i].noOfSeats--;
+            return SUCCESS;
+        }
+    }
+    return NOSEAT;
+}
+int updateAvailableSeats(struct CounsellingMain *cMainPtr, char* institute, char* program)
+{
+    for(int i = 0; i < cMainPtr->matrixCount; i++)
+    {
+        if(!strcmp(cMainPtr->seatMatrix[i].institute, institute)
+         && !strcmp(cMainPtr->seatMatrix[i].program, program))
+        {
+            return(cMainPtr->seatMatrix[i].noOfSeats);
+        }
+    }
 }
 int saveSeatAllocation(struct CounsellingMain *cMainPtr, char allocationFile[20])
 {
