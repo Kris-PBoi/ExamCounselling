@@ -1,6 +1,8 @@
 struct SeatMatrix
 {
     int noOfSeats;
-    char institute[10];
-    char program[10];
+    char collegeCode[10];
+    char programCode[10];
 };
+void printMatrix(struct SeatMatrix *matrix);
+

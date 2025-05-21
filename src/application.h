@@ -5,12 +5,12 @@ struct Application
     int rank;
     struct Preference
     {
-        char institute[30];
-        char program[30];
+        char collegeCode[30];
+        char programCode[30];
         int prefNo;        
     } prefList[MAXPREFS];
     int allocations[MAXPREFS];
     int allocationCount;
     int prefCount;
 };
-void printAppl(int applID);
+void printAppl(struct Application *app);

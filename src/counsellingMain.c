@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
         {
             int prefindex = app->allocations[j];
             printf("App No.: %d\n", app->appNo);
-            printf("Allocated institute: %s\n", app->prefList[prefindex].institute);
-            printf("Allocated program: %s\n", app->prefList[prefindex].program);
+            printf("Allocated institute: %s\n", app->prefList[prefindex].collegeCode);
+            printf("Allocated program: %s\n", app->prefList[prefindex].programCode);
         }
     }
     printf("Counselling done successfully\n");
@@ -52,8 +52,8 @@ int seatAllocation(struct CounsellingMain *cMainPtr)
         int seatFound = 0;
         for(int j = 0; j < app->prefCount; j++)
         {
-            if(allocateSeat(cMainPtr, app->prefList[j].institute,
-                 app->prefList[j].program) == SUCCESS)
+            if(allocateSeat(cMainPtr, app->prefList[j].collegeCode,
+                 app->prefList[j].programCode) == SUCCESS)
             {
                 seatFound = 1;
                 //save preference index that is allocated
@@ -65,12 +65,12 @@ int seatAllocation(struct CounsellingMain *cMainPtr)
     }
     return SUCCESS;
 }
-int allocateSeat(struct CounsellingMain *cMainPtr, char* institute, char* program)
+int allocateSeat(struct CounsellingMain *cMainPtr, char* collegeCode, char* programCode)
 {
     for(int i = 0; i < cMainPtr->matrixCount; i++)
     {
-        if(!strcmp(cMainPtr->seatMatrix[i].institute, institute)
-         && !strcmp(cMainPtr->seatMatrix[i].program, program)
+        if(!strcmp(cMainPtr->seatMatrix[i].collegeCode, collegeCode)
+         && !strcmp(cMainPtr->seatMatrix[i].programCode, programCode)
           && cMainPtr->seatMatrix[i].noOfSeats > 0)
         {
             cMainPtr->seatMatrix[i].noOfSeats--;
@@ -79,12 +79,12 @@ int allocateSeat(struct CounsellingMain *cMainPtr, char* institute, char* progra
     }
     return NOSEAT;
 }
-int updateAvailableSeats(struct CounsellingMain *cMainPtr, char* institute, char* program)
+int updateAvailableSeats(struct CounsellingMain *cMainPtr, char* collegeCode, char* programCode)
 {
     for(int i = 0; i < cMainPtr->matrixCount; i++)
     {
-        if(!strcmp(cMainPtr->seatMatrix[i].institute, institute)
-         && !strcmp(cMainPtr->seatMatrix[i].program, program))
+        if(!strcmp(cMainPtr->seatMatrix[i].collegeCode, collegeCode)
+         && !strcmp(cMainPtr->seatMatrix[i].programCode, programCode))
         {
             return(cMainPtr->seatMatrix[i].noOfSeats);
         }
@@ -120,37 +120,37 @@ void loadTestData(struct CounsellingMain *cMainPtr)
     cMainPtr->appCount = 3;
     cMainPtr->appList[0].appNo = 0;
     cMainPtr->appList[0].prefCount = 2;
-    strcpy(cMainPtr->appList[0].prefList[0].institute, "IIITB");
+    strcpy(cMainPtr->appList[0].prefList[0].collegeCode, "IIITB");
     cMainPtr->appList[0].prefList[0].prefNo = 0;
-    strcpy(cMainPtr->appList[0].prefList[0].program, "Btech-CS");
+    strcpy(cMainPtr->appList[0].prefList[0].programCode, "Btech-CS");
 
-    strcpy(cMainPtr->appList[0].prefList[1].institute, "NIT");
+    strcpy(cMainPtr->appList[0].prefList[1].collegeCode, "NIT");
     cMainPtr->appList[0].prefList[1].prefNo = 1;
-    strcpy(cMainPtr->appList[0].prefList[1].program, "Btech-ECE");
+    strcpy(cMainPtr->appList[0].prefList[1].programCode, "Btech-ECE");
     cMainPtr->appList[0].rank = 25;
 
 
     cMainPtr->appList[1].appNo = 1;
     cMainPtr->appList[1].prefCount = 3;
-    strcpy(cMainPtr->appList[1].prefList[0].institute, "PES");
+    strcpy(cMainPtr->appList[1].prefList[0].collegeCode, "PES");
     cMainPtr->appList[1].prefList[0].prefNo = 0;
-    strcpy(cMainPtr->appList[1].prefList[0].program, "Btech-ECE");
+    strcpy(cMainPtr->appList[1].prefList[0].programCode, "Btech-ECE");
 
-    strcpy(cMainPtr->appList[1].prefList[1].institute, "BITS");
+    strcpy(cMainPtr->appList[1].prefList[1].collegeCode, "BITS");
     cMainPtr->appList[1].prefList[1].prefNo = 1;
-    strcpy(cMainPtr->appList[1].prefList[1].program, "BSc-Maths");
+    strcpy(cMainPtr->appList[1].prefList[1].programCode, "BSc-Maths");
 
-    strcpy(cMainPtr->appList[1].prefList[2].institute, "VIT");
+    strcpy(cMainPtr->appList[1].prefList[2].collegeCode, "VIT");
     cMainPtr->appList[1].prefList[2].prefNo = 2;
-    strcpy(cMainPtr->appList[1].prefList[2].program, "Btech-AIML");
+    strcpy(cMainPtr->appList[1].prefList[2].programCode, "Btech-AIML");
     cMainPtr->appList[1].rank = 74;
 
 
     cMainPtr->appList[2].appNo = 2;
     cMainPtr->appList[2].prefCount = 1;
-    strcpy(cMainPtr->appList[2].prefList[0].institute, "IIT-Bombay");
+    strcpy(cMainPtr->appList[2].prefList[0].collegeCode, "IIT-Bombay");
     cMainPtr->appList[2].prefList[0].prefNo = 0;
-    strcpy(cMainPtr->appList[2].prefList[0].program, "Btech-ECE");
+    strcpy(cMainPtr->appList[2].prefList[0].programCode, "Btech-ECE");
     cMainPtr->appList[2].rank = 40;
 
 }
@@ -163,9 +163,9 @@ void applTestPrint(struct CounsellingMain *cMainPtr)
         //printf("prefcount = %d:\n", cMainPtr->appList[i].prefCount);
         for(int j = 0; j < cMainPtr->appList[i].prefCount; j++)
         {
-            printf("institute: %s\n", cMainPtr->appList[i].prefList[j].institute);
+            printf("collegeCode: %s\n", cMainPtr->appList[i].prefList[j].collegeCode);
             printf("prefNo: %d\n", cMainPtr->appList[i].prefList[j].prefNo);
-            printf("program: %s\n", cMainPtr->appList[i].prefList[j].program);
+            printf("programCode: %s\n", cMainPtr->appList[i].prefList[j].programCode);
             printf("rank: %d\n", cMainPtr->appList[i].rank);
         }
         printf("-----------------------------------------------------------------\n");

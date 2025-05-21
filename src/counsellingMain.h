@@ -17,10 +17,10 @@ struct CounsellingMain
     int appCount;
     int matrixCount;
 };
-int loadSeatMatrix(struct CounsellingMain *cMainPtr, char seatMatrixFile[50]);
-int loadApplication(struct CounsellingMain *cMainPtr, char studApplFile[50]);
+int loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile);
+int loadApplication(struct CounsellingMain *cMainPtr, char *studApplFile);
 int seatAllocation(struct CounsellingMain *cMainPtr);
-int saveSeatAllocation(struct CounsellingMain *cMainPtr, char allocationFile[20]);
+int saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile);
 int sortAppl(struct CounsellingMain *cMainPtr);
 void loadTestData(struct CounsellingMain *cMainPtr);
 void applTestPrint(struct CounsellingMain *cMainPtr);
