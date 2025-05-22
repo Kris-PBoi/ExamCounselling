@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include "counsellingMain.h"
-int loadSeatMatrix(struct CounsellingMain *cMainPtr, char seatMatrixFile[50])
+int loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile)
 {
     printf("load seat matrix called with %s\n", seatMatrixFile);
     FILE *matrFile = fopen(seatMatrixFile, "r");
@@ -27,14 +27,14 @@ void printMatrix(struct SeatMatrix *matrix)
 {
     printf("%s %s %d\n", matrix->collegeCode, matrix->programCode, matrix->noOfSeats);
 }
-int main()
-{
-    char *fileName = "/mnt/c/Users/kris_/OneDrive/Desktop/PES/Sem2/C/ExamCounselling/docs/SeatMatrix.csv";
-    struct CounsellingMain cMain;
+// int main()
+// {
+//     char *fileName = "/mnt/c/Users/kris_/OneDrive/Desktop/PES/Sem2/C/ExamCounselling/docs/SeatMatrix.csv";
+//     struct CounsellingMain cMain;
 
-    loadSeatMatrix(&cMain, fileName);
-    for(int i = 0; i < cMain.matrixCount; i++)
-    {
-        printMatrix(&(cMain.seatMatrix[i]));
-    }
-}
+//     loadSeatMatrix(&cMain, fileName);
+//     for(int i = 0; i < cMain.matrixCount; i++)
+//     {
+//         printMatrix(&(cMain.seatMatrix[i]));
+//     }
+// }

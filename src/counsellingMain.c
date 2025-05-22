@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 #include "counsellingMain.h"
 int main(int argc, char *argv[])
@@ -8,8 +9,13 @@ int main(int argc, char *argv[])
     
     cMain.appCount = 0;
 
-    strcpy(allocationFile, "allocationFile");
+    strcpy(allocationFile, "allocationFile.txt");
     printf("Main function called with argc %d.\n", argc);
+    if(argc != 3)
+    {
+        printf("usage: %s <seatmatrixFile> <applicationFile>\n", argv[0]);
+        return 1;
+    }
     for(int i = 0; i < argc; i++)
     {
         printf("argv %s.\n", argv[i]);
@@ -18,29 +24,17 @@ int main(int argc, char *argv[])
     char *applicationFile = argv[2];
     loadApplication(&cMain, applicationFile);
     loadSeatMatrix(&cMain, seatMatrixFile);
-    seatAllocation(&cMain);
-    saveSeatAllocation(&cMain, allocationFile);
-    loadTestData(&cMain);
-
+    //loadTestData(&cMain);
+    
     printf("Before sorting by rank: \n");
     applTestPrint(&cMain);
     sortAppl(&cMain);
     printf("After sorting by rank: \n");
     applTestPrint(&cMain);
-
+    
     seatAllocation(&cMain);
-    printf("After seat allocation: \n");
-    for(int i = 0; i < cMain.appCount; i++)
-    {
-        struct Application* app = &(cMain.appList[i]); 
-        for(int j = 0; j < app->allocationCount; j++)
-        {
-            int prefindex = app->allocations[j];
-            printf("App No.: %d\n", app->appNo);
-            printf("Allocated institute: %s\n", app->prefList[prefindex].collegeCode);
-            printf("Allocated program: %s\n", app->prefList[prefindex].programCode);
-        }
-    }
+    saveSeatAllocation(&cMain, allocationFile);
+       
     printf("Counselling done successfully\n");
 }
 int seatAllocation(struct CounsellingMain *cMainPtr)
@@ -53,7 +47,7 @@ int seatAllocation(struct CounsellingMain *cMainPtr)
         for(int j = 0; j < app->prefCount; j++)
         {
             if(allocateSeat(cMainPtr, app->prefList[j].collegeCode,
-                 app->prefList[j].programCode) == SUCCESS)
+                app->prefList[j].programCode) == SUCCESS)
             {
                 seatFound = 1;
                 //save preference index that is allocated
@@ -90,9 +84,30 @@ int updateAvailableSeats(struct CounsellingMain *cMainPtr, char* collegeCode, ch
         }
     }
 }
-int saveSeatAllocation(struct CounsellingMain *cMainPtr, char allocationFile[20])
+int saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile)
 {
     printf("Seat Allocation saved to %s\n", allocationFile);
+    FILE *allocatedFile = fopen(allocationFile, "w");
+    char line[500];
+    if(allocatedFile == NULL)
+    {
+        printf("FILE not found\n");
+    }
+    else
+    {
+        for(int i = 0; i < cMainPtr->appCount; i++)
+        {
+        struct Application* app = &(cMainPtr->appList[i]); 
+            for(int j = 0; j < app->allocationCount; j++)
+            {
+                int prefindex = app->allocations[j];
+                fprintf(allocatedFile, "%d %d %s %s", app->appNo, app->rank, app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
+                printf("%d %d %s %s", app->appNo, app->rank, app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
+            }
+            fprintf(allocatedFile, "\n");
+            printf("\n");
+        }
+    }
 }
 int sortAppl(struct CounsellingMain *cMainPtr)
 {
@@ -103,7 +118,7 @@ int sortAppl(struct CounsellingMain *cMainPtr)
         pos = i;
         for(int j = i + 1; j < cMainPtr->appCount; j++)
         {
-            if(cMainPtr->appList[i].rank > cMainPtr->appList[j].rank) pos = j;
+            if(cMainPtr->appList[pos].rank > cMainPtr->appList[j].rank) pos = j;
         }
         if(pos != i)
         {
@@ -158,16 +173,7 @@ void applTestPrint(struct CounsellingMain *cMainPtr)
 {
     for(int i = 0; i < cMainPtr->appCount; i++)
     {
-        printf("-----------------------------------------------------------------\n");
-        printf("Showing details for applicant %d:\n", i);
-        //printf("prefcount = %d:\n", cMainPtr->appList[i].prefCount);
-        for(int j = 0; j < cMainPtr->appList[i].prefCount; j++)
-        {
-            printf("collegeCode: %s\n", cMainPtr->appList[i].prefList[j].collegeCode);
-            printf("prefNo: %d\n", cMainPtr->appList[i].prefList[j].prefNo);
-            printf("programCode: %s\n", cMainPtr->appList[i].prefList[j].programCode);
-            printf("rank: %d\n", cMainPtr->appList[i].rank);
-        }
-        printf("-----------------------------------------------------------------\n");
+        printAppl(&(cMainPtr->appList[i]));
     }
+    printf("-----------------------------------------------------------------\n");
 }
