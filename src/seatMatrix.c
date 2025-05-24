@@ -3,7 +3,7 @@
 #include "counsellingMain.h"
 int loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile)
 {
-    printf("load seat matrix called with %s\n", seatMatrixFile);
+    //printf("load seat matrix called with %s\n", seatMatrixFile);
     FILE *matrFile = fopen(seatMatrixFile, "r");
     struct SeatMatrix matrix;
     char line[500];

@@ -2,7 +2,7 @@
 #include "counsellingMain.h"
 int loadApplication(struct CounsellingMain *cMainPtr, char *studApplFile)
 {
-    printf("load Application called with %s\n", studApplFile);
+    //printf("load Application called with %s\n", studApplFile);
     FILE *appFile = fopen(studApplFile, "r");
     struct Application app;
     char line[500];

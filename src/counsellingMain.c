@@ -10,36 +10,37 @@ int main(int argc, char *argv[])
     cMain.appCount = 0;
 
     strcpy(allocationFile, "allocationFile.txt");
-    printf("Main function called with argc %d.\n", argc);
+    //printf("Main function called with argc %d.\n", argc);
     if(argc != 3)
     {
         printf("usage: %s <seatmatrixFile> <applicationFile>\n", argv[0]);
         return 1;
     }
-    for(int i = 0; i < argc; i++)
-    {
-        printf("argv %s.\n", argv[i]);
-    }
+    // for(int i = 0; i < argc; i++)
+    // {
+    //     printf("argv %s.\n", argv[i]);
+    // }
     char *seatMatrixFile = argv[1];
     char *applicationFile = argv[2];
     loadApplication(&cMain, applicationFile);
     loadSeatMatrix(&cMain, seatMatrixFile);
     //loadTestData(&cMain);
 
-    printf("Before sorting:\n");
-    applTestPrint(&cMain);
+    // printf("Before sorting:\n");
+    // applTestPrint(&cMain);
+    // printf("After sorting:\n");
+    // applTestPrint(&cMain);
+
     sortAppl(&cMain);
-    printf("After sorting:\n");
-    applTestPrint(&cMain);
 
     seatAllocation(&cMain);
     saveSeatAllocation(&cMain, allocationFile);
        
-    printf("Counselling done successfully\n");
+    printf("Seat Allocation done successfully\n");
 }
 int seatAllocation(struct CounsellingMain *cMainPtr)
 {
-    printf("Seat Allocation called\n");
+    //printf("Seat Allocation called\n");
     for(int i = 0; i < cMainPtr->appCount; i++)
     {
         struct Application* app = &(cMainPtr->appList[i]); 
@@ -54,8 +55,8 @@ int seatAllocation(struct CounsellingMain *cMainPtr)
                 app->allocations[app->allocationCount++] = j;
             }
         }
-        if(seatFound == 0) printf("No seat allocated for %d\n", app->appNo);
-        else printf("Seat allocated for %d\n", app->appNo);
+        // if(seatFound == 0) printf("No seat allocated for %d\n", app->appNo);
+        // else printf("Seat allocated for %d\n", app->appNo);
     }
     return SUCCESS;
 }
@@ -86,7 +87,7 @@ int updateAvailableSeats(struct CounsellingMain *cMainPtr, char* collegeCode, ch
 }
 int saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile)
 {
-    printf("Seat Allocation saved to %s\n", allocationFile);
+    //printf("Seat Allocation saved to %s\n", allocationFile);
     FILE *allocatedFile = fopen(allocationFile, "w");
     char line[500];
     if(allocatedFile == NULL)
@@ -100,22 +101,22 @@ int saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile)
         {
             struct Application* app = &(cMainPtr->appList[i]); 
             fprintf(allocatedFile, "%d %d ", app->appNo, app->rank);
-            printf("%d %d ", app->appNo, app->rank);
+            //printf("%d %d ", app->appNo, app->rank);
             for(int j = 0; j < app->allocationCount; j++)
             {
                 int prefindex = app->allocations[j];
                 fprintf(allocatedFile, "%s %s ", app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
-                printf("%s %s ", app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
+                //printf("%s %s ", app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
             }
             if(app->allocationCount == 0)
             {
                 fprintf(allocatedFile, "Seat not allocated.");
-                printf("Seat not allocated.");        
+                //printf("Seat not allocated.");        
             }
                     
 
             fprintf(allocatedFile, "\n");
-            printf("\n");
+            //printf("\n");
         }
     }
 }
