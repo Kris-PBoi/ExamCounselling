@@ -8,7 +8,7 @@ def generate_seat_matrix_file(filename="SeatMatrix_generated.txt"):
         # Generate entries for each college-program combination
         for college in college_names:
             for program in programs:
-                num_seats = random.randint(5, 15)
+                num_seats = random.randint(10, 20)
                 f.write(f"{college} {program} {num_seats}\n")
 
 # Run the function to create the file

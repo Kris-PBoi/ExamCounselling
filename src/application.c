@@ -23,6 +23,7 @@ int loadApplication(struct CounsellingMain *cMainPtr, char *studApplFile)
         }
         cMainPtr->appCount = appCounter;
     }
+    fclose(appFile);
 }
 void printAppl(struct Application *app)
 {

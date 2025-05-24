@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<string.h>
 #include "counsellingMain.h"
 int loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile)
 {
@@ -22,14 +23,15 @@ int loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile)
         }
         cMainPtr->matrixCount = matCounter;
     }
+    fclose(matrFile);
 }
 void printMatrix(struct SeatMatrix *matrix)
 {
     printf("%s %s %d\n", matrix->collegeCode, matrix->programCode, matrix->noOfSeats);
 }
-// int main()
+// int main(int argc, char**argv)
 // {
-//     char *fileName = "/mnt/c/Users/kris_/OneDrive/Desktop/PES/Sem2/C/ExamCounselling/docs/SeatMatrix.csv";
+//     char *fileName = argv[1];
 //     struct CounsellingMain cMain;
 
 //     loadSeatMatrix(&cMain, fileName);

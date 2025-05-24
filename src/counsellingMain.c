@@ -25,13 +25,13 @@ int main(int argc, char *argv[])
     loadApplication(&cMain, applicationFile);
     loadSeatMatrix(&cMain, seatMatrixFile);
     //loadTestData(&cMain);
-    
-    printf("Before sorting by rank: \n");
+
+    printf("Before sorting:\n");
     applTestPrint(&cMain);
     sortAppl(&cMain);
-    printf("After sorting by rank: \n");
+    printf("After sorting:\n");
     applTestPrint(&cMain);
-    
+
     seatAllocation(&cMain);
     saveSeatAllocation(&cMain, allocationFile);
        
@@ -95,15 +95,25 @@ int saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile)
     }
     else
     {
+        fprintf(allocatedFile, "AppId Rank College Preference\n");
         for(int i = 0; i < cMainPtr->appCount; i++)
         {
-        struct Application* app = &(cMainPtr->appList[i]); 
+            struct Application* app = &(cMainPtr->appList[i]); 
+            fprintf(allocatedFile, "%d %d ", app->appNo, app->rank);
+            printf("%d %d ", app->appNo, app->rank);
             for(int j = 0; j < app->allocationCount; j++)
             {
                 int prefindex = app->allocations[j];
-                fprintf(allocatedFile, "%d %d %s %s", app->appNo, app->rank, app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
-                printf("%d %d %s %s", app->appNo, app->rank, app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
+                fprintf(allocatedFile, "%s %s ", app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
+                printf("%s %s ", app->prefList[prefindex].collegeCode, app->prefList[prefindex].programCode);
             }
+            if(app->allocationCount == 0)
+            {
+                fprintf(allocatedFile, "Seat not allocated.");
+                printf("Seat not allocated.");        
+            }
+                    
+
             fprintf(allocatedFile, "\n");
             printf("\n");
         }
