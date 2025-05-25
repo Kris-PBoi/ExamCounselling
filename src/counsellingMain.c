@@ -23,7 +23,8 @@ int main(int argc, char *argv[])
     char *seatMatrixFile = argv[1];
     char *applicationFile = argv[2];
     loadApplication(&cMain, applicationFile);
-    loadSeatMatrix(&cMain, seatMatrixFile);
+    loadSeatMatrix(&cMain, seatMatrixFile);       
+
     //loadTestData(&cMain);
 
     // printf("Before sorting:\n");
@@ -180,11 +181,11 @@ void loadTestData(struct CounsellingMain *cMainPtr)
     cMainPtr->appList[2].rank = 40;
 
 }
-void applTestPrint(struct CounsellingMain *cMainPtr)
-{
-    for(int i = 0; i < cMainPtr->appCount; i++)
-    {
-        printAppl(&(cMainPtr->appList[i]));
-    }
-    printf("-----------------------------------------------------------------\n");
-}
+// void applTestPrint(struct CounsellingMain *cMainPtr)
+// {
+//     for(int i = 0; i < cMainPtr->appCount; i++)
+//     {
+//         printAppl(&(cMainPtr->appList[i]));
+//     }
+//     printf("-----------------------------------------------------------------\n");
+// }
