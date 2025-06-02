@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include "counsellingMain.h"
-int loadApplication(struct CounsellingMain *cMainPtr, char *studApplFile)
+enum ErrorCode loadApplication(struct CounsellingMain *cMainPtr, char *studApplFile)
 {
     //printf("load Application called with %s\n", studApplFile);
     FILE *appFile = fopen(studApplFile, "r");
@@ -24,6 +24,7 @@ int loadApplication(struct CounsellingMain *cMainPtr, char *studApplFile)
         cMainPtr->appCount = appCounter;
     }
     fclose(appFile);
+    return SUCCESS;
 }
 void printAppl(struct Application *app)
 {

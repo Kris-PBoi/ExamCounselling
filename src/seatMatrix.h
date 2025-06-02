@@ -9,4 +9,3 @@ struct SeatMatrix
     char programCode[MAXLENPGM];
 };
 void printMatrix(struct SeatMatrix *matrix);
-

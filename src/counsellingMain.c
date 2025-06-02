@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
        
     printf("Seat Allocation done successfully\n");
 }
-int seatAllocation(struct CounsellingMain *cMainPtr)
+enum ErrorCode seatAllocation(struct CounsellingMain *cMainPtr)
 {
     //printf("Seat Allocation called\n");
     for(int i = 0; i < cMainPtr->appCount; i++)
@@ -61,7 +61,7 @@ int seatAllocation(struct CounsellingMain *cMainPtr)
     }
     return SUCCESS;
 }
-int allocateSeat(struct CounsellingMain *cMainPtr, char* collegeCode, char* programCode)
+enum ErrorCode allocateSeat(struct CounsellingMain *cMainPtr, char* collegeCode, char* programCode)
 {
     for(int i = 0; i < cMainPtr->matrixCount; i++)
     {
@@ -86,7 +86,7 @@ int updateAvailableSeats(struct CounsellingMain *cMainPtr, char* collegeCode, ch
         }
     }
 }
-int saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile)
+enum ErrorCode saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile)
 {
     //printf("Seat Allocation saved to %s\n", allocationFile);
     FILE *allocatedFile = fopen(allocationFile, "w");
@@ -114,14 +114,13 @@ int saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile)
                 fprintf(allocatedFile, "Seat not allocated.");
                 //printf("Seat not allocated.");        
             }
-                    
-
             fprintf(allocatedFile, "\n");
             //printf("\n");
         }
+        return SUCCESS;
     }
 }
-int sortAppl(struct CounsellingMain *cMainPtr)
+enum ErrorCode sortAppl(struct CounsellingMain *cMainPtr)
 {
     int pos;
     struct Application temp;

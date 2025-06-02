@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "seatmatrix.h": "c",
-        "counsellingmain.h": "c"
+        "counsellingmain.h": "c",
+        "stdio.h": "c"
     }
 }

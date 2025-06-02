@@ -5,10 +5,13 @@
 #define MAXSEATMATRIX 1000
 
 //Error Codes
-#define SUCCESS 0
-#define APPL_FILE_ERROR 1
-#define SEAT_MATRIX_ERROR 2
-#define NOSEAT -1
+enum ErrorCode
+{
+    SUCCESS = 0,
+    APPL_FILE_ERROR = 1,
+    SEAT_MATRIX_ERROR = 2,
+    NOSEAT = -1
+};
 
 struct CounsellingMain
 {
@@ -17,13 +20,13 @@ struct CounsellingMain
     int appCount;
     int matrixCount;
 };
-int loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile);
-int loadApplication(struct CounsellingMain *cMainPtr, char *studApplFile);
-int seatAllocation(struct CounsellingMain *cMainPtr);
-int saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile);
-int sortAppl(struct CounsellingMain *cMainPtr);
+enum ErrorCode loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile);
+enum ErrorCode loadApplication(struct CounsellingMain *cMainPtr, char *studApplFile);
+enum ErrorCode seatAllocation(struct CounsellingMain *cMainPtr);
+enum ErrorCode saveSeatAllocation(struct CounsellingMain *cMainPtr, char *allocationFile);
+enum ErrorCode sortAppl(struct CounsellingMain *cMainPtr);
 void loadTestData(struct CounsellingMain *cMainPtr);
 void applTestPrint(struct CounsellingMain *cMainPtr);
-int allocateSeat(struct CounsellingMain *cMainPtr, char* institute, char* program);
+enum ErrorCode allocateSeat(struct CounsellingMain *cMainPtr, char* institute, char* program);
 int updateAvailableSeats(struct CounsellingMain *cMainPtr, char* institute, char* program);
 

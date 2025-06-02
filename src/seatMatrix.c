@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<string.h>
 #include "counsellingMain.h"
-int loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile)
+enum ErrorCode loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile)
 {
     //printf("load seat matrix called with %s\n", seatMatrixFile);
     FILE *matrFile = fopen(seatMatrixFile, "r");
@@ -24,6 +24,7 @@ int loadSeatMatrix(struct CounsellingMain *cMainPtr, char *seatMatrixFile)
         cMainPtr->matrixCount = matCounter;
     }
     fclose(matrFile);
+    return SUCCESS;   
 }
 void printMatrix(struct SeatMatrix *matrix)
 {
